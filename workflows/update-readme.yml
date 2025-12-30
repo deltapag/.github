@@ -44,5 +44,5 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add profile/README.md
-          git diff --staged --quiet || (git commit -m "🤖 Auto-update README with latest repositories" && git push)
+          git diff --staged --quiet || (git commit -m "🤖 Atualização automática do README com os repositórios mais recentes" && git push)
 

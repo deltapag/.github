@@ -12,7 +12,7 @@ from pathlib import Path
 try:
     from github import Github
 except ImportError:
-    print("Error: PyGithub not installed. Install with: pip install pygithub")
+    print("Erro: PyGithub não instalado. Instale com: pip install pygithub")
     sys.exit(1)
 
 
@@ -67,8 +67,8 @@ def update_readme(org_name, github_token=None):
     else:
         github_token = os.environ.get('GITHUB_TOKEN')
         if not github_token:
-            print("Error: GITHUB_TOKEN environment variable not set")
-            print("You can set it with: export GITHUB_TOKEN=your_token")
+            print("Erro: Variável de ambiente GITHUB_TOKEN não definida")
+            print("Você pode defini-la com: export GITHUB_TOKEN=seu_token")
             sys.exit(1)
         g = Github(github_token)
     
@@ -79,7 +79,7 @@ def update_readme(org_name, github_token=None):
         try:
             org = g.get_user(org_name)
         except Exception as e:
-            print(f"Error: Could not find organization or user '{org_name}': {e}")
+            print(f"Erro: Não foi possível encontrar a organização ou usuário '{org_name}': {e}")
             sys.exit(1)
     
     # Read current README
@@ -87,16 +87,16 @@ def update_readme(org_name, github_token=None):
     readme_path = script_dir.parent / 'profile' / 'README.md'
     
     if not readme_path.exists():
-        print(f"Error: README not found at {readme_path}")
+        print(f"Erro: README não encontrado em {readme_path}")
         sys.exit(1)
     
     with open(readme_path, 'r', encoding='utf-8') as f:
         readme_content = f.read()
     
     # Fetch all repositories
-    print(f"Fetching repositories for {org_name}...")
+    print(f"Buscando repositórios para {org_name}...")
     repos = list(org.get_repos())
-    print(f"Found {len(repos)} repositories")
+    print(f"Encontrados {len(repos)} repositórios")
     
     # Categorize repositories
     repos_in_use = []
@@ -119,7 +119,7 @@ def update_readme(org_name, github_token=None):
     
     # If no categorization found, put all in "In Use"
     if not repos_in_use and not repos_in_dev and not repos_templates and not repos_deprecated:
-        print("No categorization found, placing all repos in 'In Use'")
+        print("Nenhuma categorização encontrada, colocando todos os repositórios em 'Em Produção'")
         for repo in repos:
             repos_in_use.append(format_repo_markdown(repo))
     
@@ -130,10 +130,10 @@ def update_readme(org_name, github_token=None):
         return re.sub(pattern, replacement, content, flags=re.DOTALL)
     
     # Replace sections
-    in_use_content = '\n'.join(repos_in_use) if repos_in_use else '*No repositories in this category*'
-    in_dev_content = '\n'.join(repos_in_dev) if repos_in_dev else '*No repositories in this category*'
-    templates_content = '\n'.join(repos_templates) if repos_templates else '*No repositories in this category*'
-    deprecated_content = '\n'.join(repos_deprecated) if repos_deprecated else '*No repositories in this category*'
+    in_use_content = '\n'.join(repos_in_use) if repos_in_use else '*Nenhum repositório nesta categoria*'
+    in_dev_content = '\n'.join(repos_in_dev) if repos_in_dev else '*Nenhum repositório nesta categoria*'
+    templates_content = '\n'.join(repos_templates) if repos_templates else '*Nenhum repositório nesta categoria*'
+    deprecated_content = '\n'.join(repos_deprecated) if repos_deprecated else '*Nenhum repositório nesta categoria*'
     
     readme_content = replace_section(
         readme_content,
@@ -175,11 +175,11 @@ def update_readme(org_name, github_token=None):
     with open(readme_path, 'w', encoding='utf-8') as f:
         f.write(readme_content)
     
-    print(f"\n✅ Updated README with {total_repos} repositories:")
-    print(f"   - In Use: {len(repos_in_use)}")
-    print(f"   - In Development: {len(repos_in_dev)}")
+    print(f"\n✅ README atualizado com {total_repos} repositórios:")
+    print(f"   - Em Produção: {len(repos_in_use)}")
+    print(f"   - Em Desenvolvimento: {len(repos_in_dev)}")
     print(f"   - Templates: {len(repos_templates)}")
-    print(f"   - Deprecated: {len(repos_deprecated)}")
+    print(f"   - Depreciados: {len(repos_deprecated)}")
 
 
 if __name__ == '__main__':
