@@ -94,7 +94,7 @@
   
   ## 📊 Estatísticas
   
-  <img src="https://github-readme-stats.vercel.app/api?username=deltapag&show_icons=true&theme=tokyonight&hide_border=true&bg_color=0D1117" alt="GitHub Stats" width="450"/>
+  ![Estatísticas do GitHub](https://github-readme-stats.vercel.app/api?username=deltapag&show_icons=true&theme=tokyonight&hide_border=true&bg_color=0D1117)
   
   <br>
   <br>
